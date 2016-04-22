@@ -1,6 +1,9 @@
 //calculate the number of pages needed and add the appropriate number of links to the bottom of the page
 
 
+var $pageNumber = Math.ceil($(".student-list li").length / 10);
+console.log($pageNumber);
+
 //Hide all but the first 10 students when the page loads
 
 //$hidden = $("<style></style>").css("");
@@ -13,6 +16,29 @@
 
 
 //When a user clicks on “2” in the pagination, students 11 through 20 are shown
+var $pagination = $("<div></div>").addClass("pagination");
+var $pages;
+var $unorderedList = $("<ul></ul>");
+
+for (i=0; i < $pageNumber; i ++) {
+	
+	var $listItems = $("<li></li>")
+	var $anchor = $("<a></a>");
+$anchor.attr("href", i+1);
+	listItems.append($anchor);
+	
+	//$listItems;
+	
+	$unorderedList.append($listItems);
+
+	console.log($listItems);
+	//if $(".li a").click(function(){
+	//	$(this).addClass("active");
+	//})
+}
+
+$pagination.append($unorderedList);
+$(".page").append($pagination);
 //When a user clicks “3”, students 21 through 30 are shown.
 //And so on. When “6” is clicked 51 through 55 should be shown
 
