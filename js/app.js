@@ -2,7 +2,7 @@
 
 
 var $pageNumber = Math.ceil($(".student-list li").length / 10);
-
+console.log($pageNumber);
 
 //Hide all but the first 10 students when the page loads
 
@@ -24,8 +24,10 @@ for (i=0; i < $pageNumber; i ++) {
 	
 	var $listItems = $("<li></li>")
 	var $anchor = $("<a></a>");
-	$anchor.attr("href", i+1);
-	listItems.append($anchor);
+	$anchor.attr("href", "#");
+	$anchor.text(i+1);
+
+	$listItems.append($anchor);
 	
 	//$listItems;
 	
