@@ -5,9 +5,26 @@ var $pageNumber = Math.ceil($(".student-list li").length / 10);
 console.log($pageNumber);
 
 //Hide all but the first 10 students when the page loads
+var $pagination = $("<div></div>").addClass("pagination");
+var $pages = ".pagination ul li";
+var $unorderedList = $("<ul></ul>");
+var $anchor;
 
-//$hidden = $("<style></style>").css("");
-//$head.append($hidden);
+for (i=0; i < $pageNumber; i ++) {
+	var $listItems = $("<li></li>")
+	$anchor = $("<a></a>");
+	$anchor.attr("href", "#");
+	$anchor.text(i+1);
+	$listItems.append($anchor);	
+	$unorderedList.append($listItems);
+	console.log($listItems);
+}
+
+
+//$hidden = $("<style></style>").css("        .student-item.cf:nth-of-type(n+11) {
+//            display: none;
+
+//$("head").append($hidden);
         /**
         This CSS is for illustrative purposes. 
         All elements should still be in the DOM, but hidden.
@@ -16,28 +33,15 @@ console.log($pageNumber);
 
 
 //When a user clicks on “2” in the pagination, students 11 through 20 are shown
-var $pagination = $("<div></div>").addClass("pagination");
-var $pages;
-var $unorderedList = $("<ul></ul>");
 
-for (i=0; i < $pageNumber; i ++) {
-	
-	var $listItems = $("<li></li>")
-	var $anchor = $("<a></a>");
-	$anchor.attr("href", "#");
-	$anchor.text(i+1);
 
-	$listItems.append($anchor);
-	
-	//$listItems;
-	
-	$unorderedList.append($listItems);
-
-	console.log($listItems);
-	//if $(".li a").click(function(){
-	//	$(this).addClass("active");
-	//})
-}
+$(".pagination ul li").on("click", "a", function(event) {
+	event.preventDefault();
+	$(this).addClass("active");
+	console.log("Active class is" + $(".pagination ul li a"));
+	//
+	//
+});
 
 $pagination.append($unorderedList);
 $(".page").append($pagination);
