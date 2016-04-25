@@ -5,7 +5,7 @@ var $pageNumber = Math.ceil($(".student-list li").length / 10);
 console.log($pageNumber);
 
 var $pagination = $("<div></div>").addClass("pagination");
-var $pages = ".pagination ul li";
+var $pages = $("div.pagination ul li a");
 var $unorderedList = $("<ul></ul>");
 var $anchor;
 
@@ -19,37 +19,72 @@ for (i=0; i < $pageNumber; i ++) {
 	console.log($listItems);
 }
 
-//Hide all but the first 10 students when the page loads
-
-
-$("head").add("style");//.css(".student-item.cf:nth-of-type(n+11)", "display", "none");
-
-
-        /**
-        This CSS is for illustrative purposes. 
-        All elements should still be in the DOM, but hidden.
-        **/
-
-
-
-//When a user clicks on “2” in the pagination, students 11 through 20 are shown
-$( ".pagination ul li a" ).on( "click", function( event ) {
-    event.preventDefault();
-
-    console.log( $( this ).text() );
-});
-
-$(".pagination ul li").on("click", "a", function(event) {
-	event.preventDefault();
-	$(this).addClass("active");
-	console.log("Active class is" + $(".pagination ul li a"));
-
-});
-
 $pagination.append($unorderedList);
 $(".page").append($pagination);
+
+//Hide all but the first 10 students when the page loads
+var $pageOne = $anchor.parent().parent().children().first().children().addClass("active");
+var $pageTwo = $pageOne.parent().next().children();
+var $pageThree = $pageTwo.parent().next().children();
+var $pageFour = $pageThree.parent().next().children();
+var $pageFive = $pageFour.parent().next().children();
+var $pageSix = $anchor;
+
+
+$style = $("<style></style>");
+var $hidden;
+
+
+//When a user clicks on “1” in the pagination, students 11 through 20 are shown
+$pageOne.click(function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+});
+if ($pageOne.hasClass("active")) {
+	$hidden = $(".student-item.cf:nth-of-type(n+11)").css("display", "none");
+} 
+
+//When a user clicks on “2” in the pagination, students 11 through 20 are shown
+$pageTwo.on("click", function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+    if ($pageTwo.hasClass("active")) {
+		$hidden = $(".student-item.cf:nth-of-type(n+11)").css("display", "");
+		$hidden = $(".student-item.cf:nth-of-type(n+21)").css("display", "none");
+}
+	$style.append($hidden);
+	$("head").append($style);
+});
+
+
 //When a user clicks “3”, students 21 through 30 are shown.
+$pageThree.click(function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+});
+if ($pageThree.hasClass("active")) {
+	$hidden = $(".student-item.cf:nth-of-type(n+21)").css("display", "none");
+}
+
+//When a user clicks “4”, students 31 through 40 are shown.
+$pageFour.click(function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+});
+
+//When a user clicks “3”, students 21 through 30 are shown.
+$pageFive.click(function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+});
+
 //And so on. When “6” is clicked 51 through 55 should be shown
+//When a user clicks “3”, students 21 through 30 are shown.
+$pageSix.click(function() {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+});
+
 
 //add the student search markup as presented in the filters-example.html file to the index.html file
 var $search = $("<div></div>").addClass("student-search");
