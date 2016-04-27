@@ -13,6 +13,7 @@ for (i=0; i < $pageNumber; i ++) {
 	$listItems.append($anchor);	
 	$unorderedList.append($listItems);
 }
+
 $pagination.append($unorderedList);
 $(".page").append($pagination);
 
@@ -29,10 +30,11 @@ var $pageSix = $anchor;
 $(".student-list").children().hide();
 $(".student-list li:nth-child(n):nth-child(-n+10)").show();
 
+var i;
 $(".pagination > ul > li > a").click(function(){
 	$("a").removeClass("active");
 	$(this).addClass("active");
-	var i = console.log($(this).html());
+	i = console.log($(this).html());
 	$(".student-list").children().hide();
     $(".student-list li:nth-child(n+20):nth-child(-n+30)").show();
 
@@ -124,31 +126,40 @@ $(".page-header").append($studentSearch);
 
 
 
-
-
+var x = new Array;
+var $searchResultPageNumber;
 
 //Add an event listener to the search button
-$searchButton.on( "click", function() {
-//When the user clicks on the button it should use the text in the search input to filter the results
-var $values = $("input").val();
-var $studentNames = $(".student-list h3");
+$input.on( "keyup", function() {
+	//When the user clicks on the button it should use the text in the search input to filter the results
+	var $values = $("input").val();
+	var studentNames = $(".student-list h3");
+	var searchResult;
+	$(".student-list").children().hide();
+	var name;
+	x = [];
 
-$studentNames.each(function( index, value ) {
-	var $name = value.innerHTML;
-	if (name.indexOf($values) !== -1 ) {
-		$(".student-list").children().hide();
-		name.parent().parent().parent();
-		console.log("Found: " + name);
-	}
-  //console.log( index + " => " + value.innerHTML);
-});
+	studentNames.each(function( index, value ) {
+		//Users should be able to search by name or e-mail address
+		name = value.innerHTML;
+		if (name.indexOf($values) !== -1 && name.length > 0 ) {
+			searchResult = $(this).parent().parent().show();
+			console.log("Found: " + name + ", " + index);
 
-//Users should be able to search by name or e-mail address
+			x.push(this);
+		}
+	})
+	$searchResultPageNumber = Math.ceil(x.length / 10);
+	console.log($searchResultPageNumber);
+	$unorderedList.remove();
 
-
-console.log("Button clicked");
-console.log($values);
-
+	for (i=0; i < $searchResultPageNumber; i ++) {
+	var $listItems = $("<li></li>");
+	var $anchor = $("<a></a>");
+	$anchor.attr("href", "#").text(i+1);
+	$listItems.append($anchor);	
+	$unorderedList.append($listItems);
+}
 
 //Search results should also be paginated.
 //For example, if the search returns more than 10 results, those results should be paginated too
