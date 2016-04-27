@@ -1,26 +1,22 @@
 //calculate the number of pages needed and add the appropriate number of links to the bottom of the page
 
-
-var $pageNumber = Math.ceil($(".student-list li").length / 10);
-console.log($pageNumber);
-
+var $studentList = $(".student-list li");
+var $pageNumber = Math.ceil($studentList.length / 10);
 var $pagination = $("<div></div>").addClass("pagination");
 var $pages = $("div.pagination ul li");
 var $unorderedList = $("<ul></ul>");
 
 for (i=0; i < $pageNumber; i ++) {
-	var $listItems = $("<li></li>")
+	var $listItems = $("<li></li>");
 	var $anchor = $("<a></a>");
 	$anchor.attr("href", "#").text(i+1);
-	$anchor.wrap("<li></li>");
 	$listItems.append($anchor);	
 	$unorderedList.append($listItems);
 }
-
-	
-
 $pagination.append($unorderedList);
 $(".page").append($pagination);
+
+
 
 //Hide all but the first 10 students when the page loads
 var $pageOne = $anchor.parent().parent().children().first().children().addClass("active");
@@ -30,9 +26,8 @@ var $pageFour = $pageThree.parent().next().children();
 var $pageFive = $pageFour.parent().next().children();
 var $pageSix = $anchor;
 
-
-$style = $("<style></style>");
-var $hidden;
+$(".student-list").children().hide();
+$(".student-list li:nth-child(n):nth-child(-n+10)").show();
 
 $(".pagination > ul > li > a").click(function(){
 	$("a").removeClass("active");
@@ -104,16 +99,65 @@ $pageSix.on("click", function() {
 
 
 //add the student search markup as presented in the filters-example.html file to the index.html file
-var $search = $("<div></div>").addClass("student-search");
+var $studentSearch = $("<div></div>").addClass("student-search");
 var $input = $("<input>").attr("placeholder", "Search for students...");
 var $searchButton = $("<button>Search</button>");
-$search.append($input);
-$search.append($searchButton);
-$(".page-header").append($search);          
-        
+$studentSearch.append($input);
+$studentSearch.append($searchButton);
+$(".page-header").append($studentSearch);        
+
+
+
+
+
+
+
+
+//Capture Userinput from Searchbox
+
+//Check if Userinput matches with name or email
+
+//Return the indexOf the .student-item the name or email matches with
+//When the user clicks the button,
+	//show only the matched .student-items on the page
+
+
+
+
+
+
+
 //Add an event listener to the search button
+$searchButton.on( "click", function() {
 //When the user clicks on the button it should use the text in the search input to filter the results
+var $values = $("input").val();
+var $studentNames = $(".student-list h3");
+
+$studentNames.each(function( index, value ) {
+	var $name = value.innerHTML;
+	if (name.indexOf($values) !== -1 ) {
+		$(".student-list").children().hide();
+		name.parent().parent().parent();
+		console.log("Found: " + name);
+	}
+  //console.log( index + " => " + value.innerHTML);
+});
 
 //Users should be able to search by name or e-mail address
+
+
+console.log("Button clicked");
+console.log($values);
+
+
 //Search results should also be paginated.
 //For example, if the search returns more than 10 results, those results should be paginated too
+})
+
+
+
+// Keyup Eventlistener function for extra credit
+//$( "input" ).on("keyup", function() {
+//	$value = $( this ).val();
+//	console.log($value);
+//}).keyup();
