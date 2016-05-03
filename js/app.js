@@ -1,89 +1,91 @@
-//add the pagination to the page
-var $studentList = $(".student-list li");
-var $pageNumber;
-var $pagination = $("<div></div>").addClass("pagination");
-var $pages = $("div.pagination ul li");
-var $unorderedList = $("<ul></ul>");
-var $activePage;
-var $anchor = $(".pagination ul li a");
-$pagination.append($unorderedList);
-$(".page").append($pagination);
 
+//add pagination to the page
+var pagination = '<div class="pagination"><ul></ul></div>';
 
-//add the student search markup as presented in the filters-example.html file to the index.html file
-var $studentSearch = $("<div></div>").addClass("student-search");
-var $input = $("<input>").attr("placeholder", "Search for students...");
-var $searchButton = $("<button>Search</button>");
-$studentSearch.append($input);
-$studentSearch.append($searchButton);
-$(".page-header").append($studentSearch);   
-var $searchResult;
-var $values = $("input").val();
-var $studentNames = $(".student-list h3");
-var $activePage;
-var i;
+//add the student search markup
+var search = '<div class="student-search"><input id="search" placeholder="Search for students..."><button>Search</button></div>';
+
+//append ul pagination to the page
+$(".page").append(pagination);
+
+//add search markup to the page
+$(".page-header").append(search);   
+
+//holdz the number of items per page
+//thus easily adjustable
+var itemsPerPage = 10;
 
 //used to calculate pagenumbers
-var x = new Array;
-$studentList.each(function(i, li) {
-  x.push($(li));
-});
 
-//displays the needed page numbers based on the displayed items
-var showPagination = function() {
-	$pageNumber = Math.ceil(x.length / 10);
-	for (i=0; i < $pageNumber; i ++) {
-		var $listItems = $("<li></li>");
-		var $anchorTags = $("<a></a>");
-		$anchorTags.attr("href", "#").text(i+1);
-		$listItems.append($anchorTags);	
-		$unorderedList.append($listItems);
-	}
-	
-	$firstPage = $(".pagination ul li a:first").addClass("active");
-	i = $firstPage.text();
-	console.log("Number of pages: " + $pageNumber);
-}
+var allListItems = new Array;
+var currentPage = $(".active").html();
 
+var initialState = function() {
+	allListItems = $(".student-list li").toArray();
 	$(".student-list").children().hide();
 	$(".student-list li:nth-child(n):nth-child(-n+10)").show();
+	$(".pagination ul li a:first").addClass("active");
+	currentPage = 1;
+}
+initialState();
 
-$input.on( "keyup", function() {
-	$values = $("input").val();
+
+//displays the array in the DOM according to the pagination
+var showList = function(studentArray) {
+    $(studentArray).hide().slice((currentPage - 1) * itemsPerPage, ((currentPage - 1) * itemsPerPage) + itemsPerPage).show();
+}
+
+
+//displays the needed page numbers based on the displayed items
+var showPagination = function(studentArray) {
+	$(".pagination ul li").remove();
+	var studentArrayLength = studentArray.length;
+	var pageNumber = Math.ceil(studentArrayLength / itemsPerPage);
+	for (i=0; i < pageNumber; i ++) {
+		var listItems = "<li><a href='#'>"+ (i+1) +"</a></li>";	
+		$(".pagination ul").append(listItems);
+	}
+	
+	$(".pagination ul li a:first").addClass("active");
+	console.log("Number of pages: " + pageNumber);
+	showList(allListItems);
+}
+showPagination(allListItems);
+
+
+$("#search").on( "keyup", function() {
+	values = $("input").val().toLowerCase();
 	$(".student-list").children().hide();
 	var name;
-	x = [];
 
-	$studentNames.each(function( index, value ) {
+	allListItems = [];
+		if ($("#search").val() == 0) {
+		initialState();
+		showPagination(allListItems);
+		return false;
+	}
+
+	$(".student-list h3").each(function( index, value ) {
 		//Users should be able to search by name or e-mail address
 		name = value.innerHTML;
-		if (name.indexOf($values) !== -1 && name.length > 0 ) {
-			$searchResult = $(this).parent().parent().show();
+		if (name.indexOf(values) !== -1 && name.length > 0 ) {
+			searchResult = $(this).parent().parent().show();
 			console.log("Found: " + name + ", " + index);
-
-			x.push($searchResult);
+			var filteredList = searchResult[0];
+			allListItems.push(filteredList);
 		}
 	})
 
-	$unorderedList.children().remove();
-	showPagination();
-	console.log(x.length);
+	console.log(allListItems.length);
+	showPagination(allListItems);
+	currentPage = 1;
 })
 
-showPagination();
 
-$(".pagination > ul > li > a").click(function(){
+$(document).on('click', ".pagination > ul > li > a", function(){
 	$("a").removeClass("active");
 	$(this).addClass("active");	
-	i = $(this).text();
-	console.log(i);
-	$(".student-list").children().hide();
-    $(".student-list li").slice(10*(i-1), i*10).show();
+	currentPage = $(this).text();
+	console.log(currentPage);
+	showList(allListItems);
 });
-
-//change page
-function showPage(i) {
-	console.log("Shows what page is shown: " + i);
-	$(".student-list").children().hide();
-    $(".student-list li").slice(10*(i-1), i*10).show();
-}
