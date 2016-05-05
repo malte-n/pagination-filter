@@ -15,8 +15,8 @@ $(".page-header").append(search);
 //thus easily adjustable
 var itemsPerPage = 10;
 
-//used to calculate pagenumbers
 
+//initiate array that holds the student list items
 var allListItems = new Array;
 var currentPage = $(".active").html();
 
@@ -32,7 +32,13 @@ initialState();
 
 //displays the array in the DOM according to the pagination
 var showList = function(studentArray) {
-    $(studentArray).hide().slice((currentPage - 1) * itemsPerPage, ((currentPage - 1) * itemsPerPage) + itemsPerPage).show();
+	if (allListItems.length > 0) {
+    	$(studentArray).hide().slice((currentPage - 1) * itemsPerPage, ((currentPage - 1) * itemsPerPage) + itemsPerPage).show();
+    } else {
+		var msgNostudent = '<li><div>There are no matches to your search.</div></li>';
+		$(".student-list").append(msgNostudent);
+		console.log(msgNostudent);
+	}
 }
 
 
@@ -44,7 +50,7 @@ var showPagination = function(studentArray) {
 	for (i=0; i < pageNumber; i ++) {
 		var listItems = "<li><a href='#'>"+ (i+1) +"</a></li>";	
 		$(".pagination ul").append(listItems);
-	}
+}
 	
 	$(".pagination ul li a:first").addClass("active");
 	console.log("Number of pages: " + pageNumber);
@@ -57,7 +63,7 @@ $("#search").on( "keyup", function() {
 	values = $("input").val().toLowerCase();
 	$(".student-list").children().hide();
 	var name;
-
+	var email;
 	allListItems = [];
 		if ($("#search").val() == 0) {
 		initialState();
@@ -77,8 +83,8 @@ $("#search").on( "keyup", function() {
 	})
 
 	console.log(allListItems.length);
-	showPagination(allListItems);
 	currentPage = 1;
+	showPagination(allListItems);
 })
 
 
