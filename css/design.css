@@ -46,10 +46,21 @@ body{
 .student-list{}
 
   .student-item{
+    margin: 0 0 0px 0;
+    padding: 0 0 0px 0;
+    border-bottom: 1px solid #eaeaea;
+  }
+.student-list li {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+}
+
+.student-list li.show {
     margin: 0 0 20px 0;
     padding: 0 0 20px 0;
     border-bottom: 1px solid #eaeaea;
-  }
+}
 
     .student-details{
       width: 50%;
@@ -123,3 +134,20 @@ body{
   display: none;
 }
 
+
+/* adds animation to the listItems */
+.swing {
+  perspective: 100px;
+}
+
+.swing li {
+  opacity: 0;
+  transform: rotateX(-90deg);
+  transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
+
+.swing li {
+  opacity: 1;
+  transform: none;
+  transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
