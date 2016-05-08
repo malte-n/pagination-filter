@@ -9,7 +9,7 @@
 	$(".page").append(pagination);
 
 	//add search markup to the page
-	$(".page-header").append(search);   
+	$(".page-header").append(search);
 
 	//holds the number of items per page
 	//thus easily adjustable
@@ -39,7 +39,6 @@
 		$(studentArray).removeClass("show");
 		if (allListItems.length > 0) {
 			var tenPerPage = $(studentArray).hide().slice((currentPage - 1) * itemsPerPage, ((currentPage - 1) * itemsPerPage) + itemsPerPage).show();
-		    
 		    //adds a class to listItems that are shown, which triggers the animation
 		    $(tenPerPage).each(function(value){
 		    	setTimeout(function() {
@@ -47,11 +46,9 @@
 		  		}, 10);
 		    })
 	    } else {
-
 	    	//if the search does not return any listItems ->
 			var msgNostudent = '<li><div>There are no matches to your search.</div></li>';
 			$(".student-list").append(msgNostudent);
-			console.log(msgNostudent);
 		}
 	}
 
@@ -65,10 +62,10 @@
 		var pageNumber = Math.ceil(studentArrayLength / itemsPerPage);
 		//adds as many pageNumbers as needed in a loop until needed pageNumber is met
 		for (i=0; i < pageNumber; i ++) {
-			var listItems = "<li><a href='#'>"+ (i+1) +"</a></li>";	
+			var listItems = "<li><a href='#'>"+ (i+1) +"</a></li>";
 			$(".pagination ul").append(listItems);
 		}
-		
+
 		$(".pagination ul li a:first").addClass("active");
 		console.log("Number of pages: " + pageNumber);
 		showList(allListItems);
@@ -76,7 +73,7 @@
 	showPagination(allListItems);
 
 
-	//on every input this function calls 
+	//on every input this function calls
 	$("#search").on( "keyup", function() {
 		var values = $("input").val().toLowerCase();
 		$(".student-list").children().hide();
@@ -104,7 +101,7 @@
 	//calls the showList function to display the correct page
 	$(document).on('click', ".pagination > ul > li > a", function(){
 		$("a").removeClass("active");
-		$(this).addClass("active");	
+		$(this).addClass("active");
 		currentPage = $(this).text();
 		console.log(currentPage);
 		showList(allListItems);
